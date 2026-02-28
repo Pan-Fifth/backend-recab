@@ -1,18 +1,6 @@
-# ☕🍰 Mini Café Dessert API
+# ☕ Mini Café Dessert API
 
-โจทย์นี้เป็นระบบ Backend ขนาดเล็ก สำหรับใช้สอนหรือฝึกเขียน REST API
-เน้นพื้นฐาน **Authentication, Role, CRUD และ Owner Check**
-
----
-
-## 🎯 Objective
-
-* เข้าใจโครงสร้าง REST API
-* ใช้ JWT Authentication
-* แยกสิทธิ์ User / Admin
-* ฝึก CRUD พื้นฐาน
-
----
+ระบบ Backend สำหรับ Mini Café Dessert API
 
 ## 🔐 Authentication
 
@@ -40,17 +28,6 @@
 | POST   | `/desserts`     | เพิ่มเมนูขนม     | Admin |
 | DELETE | `/desserts/:id` | ลบเมนูขนม        | Admin |
 
-**Dessert Model (ตัวอย่าง)**
-
-```json
-{
-  "id": 1,
-  "name": "Chocolate Cake",
-  "price": 120,
-  "category": "cake"
-}
-```
-
 ---
 
 ## ⭐ Reviews
@@ -61,45 +38,373 @@
 | GET    | `/reviews/my`  | ดูรีวิวของตัวเอง | User |
 | DELETE | `/reviews/:id` | ลบรีวิวของตัวเอง | User |
 
-**Review Model (ตัวอย่าง)**
+
+
+# 🔐 Authentication
+
+---
+
+## POST `/auth/register`
+
+สมัครสมาชิก
+
+### Request Body
+
+```json
+{
+  "username": "pan",
+  "email": "pan@email.com",
+  "password": "123456",
+  "role": "USER"
+}
+```
+
+> role มีค่า: `USER` หรือ `ADMIN` (default = USER)
+
+---
+
+### Success Response (201)
+
+```json
+{
+  "message": "Register success",
+  "user": {
+    "id": 1,
+    "username": "pan",
+    "email": "pan@email.com",
+    "role": "USER"
+  }
+}
+```
+
+---
+
+### Error Response (400)
+
+```json
+{
+  "status": "error",
+  "message": "Email already exists"
+}
+```
+
+---
+
+## POST `/auth/login`
+
+เข้าสู่ระบบ
+
+### Request Body
+
+```json
+{
+  "email": "pan@email.com",
+  "password": "123456"
+}
+```
+
+---
+
+### Success Response (200)
+
+```json
+{
+  "message": "Login success",
+  "token": "jwt_token_here",
+  "user": {
+    "id": 1,
+    "username": "pan",
+    "role": "USER"
+  }
+}
+```
+
+---
+
+### Error Response (401)
+
+```json
+{
+  "status": "error",
+  "message": "Invalid credentials"
+}
+```
+
+---
+
+# 👤 Users
+
+> ทุก endpoint ต้องแนบ Header
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## GET `/users/me`
+
+ดูข้อมูลตัวเอง
+
+### Success Response (200)
 
 ```json
 {
   "id": 1,
+  "username": "pan",
+  "email": "pan@email.com",
+  "role": "USER"
+}
+```
+
+---
+
+## PUT `/users/me`
+
+แก้ไขข้อมูลตัวเอง
+
+### Request Body
+
+```json
+{
+  "username": "pan_new",
+  "password": "newpassword123"
+}
+```
+
+---
+
+### Success Response (200)
+
+```json
+{
+  "message": "Profile updated"
+}
+```
+
+---
+
+### Error Response (401)
+
+```json
+{
+  "status": "error",
+  "message": "Unauthorized"
+}
+```
+
+---
+
+# 🍰 Desserts
+
+---
+
+## GET `/desserts`
+
+ดูเมนูขนมทั้งหมด  
+Role: USER / ADMIN
+
+### Success Response (200)
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Chocolate Cake",
+    "price": 120,
+    "category": "cake"
+  },
+  {
+    "id": 2,
+    "name": "Strawberry Cheesecake",
+    "price": 150,
+    "category": "cake"
+  }
+]
+```
+
+---
+
+## POST `/desserts`
+
+เพิ่มเมนูขนม  
+Role: ADMIN
+
+### Request Body
+
+```json
+{
+  "name": "Matcha Cake",
+  "price": 140,
+  "category": "cake"
+}
+```
+
+---
+
+### Success Response (201)
+
+```json
+{
+  "message": "Dessert created",
+  "dessert": {
+    "id": 3,
+    "name": "Matcha Cake",
+    "price": 140,
+    "category": "cake"
+  }
+}
+```
+
+---
+
+### Error Response (403)
+
+```json
+{
+  "status": "error",
+  "message": "Forbidden: Admin only"
+}
+```
+
+---
+
+## DELETE `/desserts/:id`
+
+ลบเมนูขนม  
+Role: ADMIN
+
+### Success Response (200)
+
+```json
+{
+  "message": "Dessert deleted"
+}
+```
+
+---
+
+### Error Response (404)
+
+```json
+{
+  "status": "error",
+  "message": "Dessert not found"
+}
+```
+
+---
+
+# ⭐ Reviews
+
+---
+
+## POST `/reviews`
+
+รีวิวขนม  
+Role: USER
+
+### Request Body
+
+```json
+{
   "rating": 5,
   "comment": "อร่อยมาก",
-  "userId": 3,
   "dessertId": 1
 }
 ```
 
 ---
 
-## 🔒 Business Rules
+### Success Response (201)
 
-* User ต้อง login ถึงจะรีวิวได้
-* User ลบได้เฉพาะรีวิวของตัวเอง
-* Admin เท่านั้นที่เพิ่ม / ลบเมนูขนมได้
-* Dessert 1 เมนู มีรีวิวได้หลายรายการ
-
----
-
-## 💡 Discussion Questions
-
-* User รีวิวเมนูเดิมซ้ำได้หรือไม่?
-* ถ้าไม่ login แล้วเรียก protected route จะเกิดอะไร?
-* ถ้าลบ dessert ควรลบ review ที่เกี่ยวข้องหรือไม่?
-
----
-
-## ✅ Stack (แนะนำ)
-
-* Node.js + Express
-* JWT
-* Prisma / Sequelize
-* MySQL / PostgreSQL
+```json
+{
+  "message": "Review created",
+  "review": {
+    "id": 1,
+    "rating": 5,
+    "comment": "อร่อยมาก",
+    "userId": 1,
+    "dessertId": 1
+  }
+}
+```
 
 ---
 
-> ใช้โจทย์นี้เพื่อฝึกออกแบบ API และเขียน Backend พื้นฐาน
-> สามารถขยายต่อเป็น Order หรือ Favorite ได้ในภายหลัง ☕🍩
+### Error Responses
+
+**401 Unauthorized**
+
+```json
+{
+  "status": "error",
+  "message": "Unauthorized"
+}
+```
+
+**400 Dessert not found**
+
+```json
+{
+  "status": "error",
+  "message": "Dessert not found"
+}
+```
+
+---
+
+## GET `/reviews/my`
+
+ดูรีวิวของตัวเอง
+
+### Success Response (200)
+
+```json
+[
+  {
+    "id": 1,
+    "rating": 5,
+    "comment": "อร่อยมาก",
+    "dessertId": 1
+  }
+]
+```
+
+---
+
+## DELETE `/reviews/:id`
+
+ลบรีวิวของตัวเอง
+
+### Success Response (200)
+
+```json
+{
+  "message": "Review deleted"
+}
+```
+
+---
+
+### Error Response (403 - Not Owner)
+
+```json
+{
+  "status": "error",
+  "message": "Forbidden: You can delete only your review"
+}
+```
+
+---
+
+# 🔒 Business Rules
+
+- ต้อง login ก่อนรีวิว
+- User ลบได้เฉพาะ review ของตัวเอง
+- Admin เท่านั้นที่เพิ่ม / ลบเมนูขนมได้
+- 1 Dessert มีหลาย Review ได้
+- (Optional) 1 User ควรรีวิว 1 Dessert ได้แค่ 1 ครั้ง
+
+---

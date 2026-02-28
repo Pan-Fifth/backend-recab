@@ -10,6 +10,6 @@ PUT {{BASE_URL}}/users/me
 Content-Type: application/json
 
 {
-    "username":"test1",
-    "password":"password1"
+  "username": "pan_new",
+  "password": "newpassword123"
 }

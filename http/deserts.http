@@ -10,8 +10,9 @@ POST {{BASE_URL}}/deserts
 Content-Type: application/json
 
 {
-    "username":"test1",
-    "password":"password1"
+  "name": "Matcha Cake",
+  "price": 140,
+  "category": "cake"
 }
 
 ### delete deserts
