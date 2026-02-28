@@ -1,0 +1,15 @@
+@BASE_URL = http://localhost:3000
+
+### get me
+GET {{BASE_URL}}/users/me
+Content-Type: application/json
+
+
+### edit me
+PUT {{BASE_URL}}/users/me
+Content-Type: application/json
+
+{
+    "username":"test1",
+    "password":"password1"
+}
