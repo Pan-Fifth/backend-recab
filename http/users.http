@@ -3,11 +3,13 @@
 ### get me
 GET {{BASE_URL}}/users/me
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJwYW4iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc3MjQ1OTUxNiwiZXhwIjoxNzcyNDYzMTE2fQ.m5GZ1EUvik7sQ4sofMSalulogmXyV1zbb6pCqpZbA7A
 
 
 ### edit me
 PUT {{BASE_URL}}/users/me
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJwYW4iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc3MjQ1OTUxNiwiZXhwIjoxNzcyNDYzMTE2fQ.m5GZ1EUvik7sQ4sofMSalulogmXyV1zbb6pCqpZbA7A
 
 {
   "username": "pan_new",

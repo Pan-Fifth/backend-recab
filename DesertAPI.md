@@ -38,6 +38,80 @@
 | GET    | `/reviews/my`  | ดูรีวิวของตัวเอง | User |
 | DELETE | `/reviews/:id` | ลบรีวิวของตัวเอง | User |
 
+# 📊 ER Diagram – Mini Café Dessert API
+
+![erd](./prisma-erd.svg)
+
+## Prisma Models
+
+### Role Enum
+
+```prisma
+enum Role {
+  USER
+  ADMIN
+}
+```
+
+---
+
+### User Model
+
+```prisma
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+
+  reviews   Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+---
+
+### Dessert Model
+
+```prisma
+model Dessert {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float
+  category  String
+
+  reviews   Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+---
+
+### Review Model
+
+```prisma
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String
+
+  userId    Int
+  dessertId Int
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dessert   Dessert  @relation(fields: [dessertId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, dessertId]) // ป้องกัน user รีวิวเมนูเดิมซ้ำ
+}
+```
 
 
 # 🔐 Authentication
