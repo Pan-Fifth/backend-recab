@@ -3,17 +3,20 @@
 ### post review
 POST {{BASE_URL}}/reviews
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJwYW4xIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NzI1MjU4MDQsImV4cCI6MTc3MzM4OTgwNH0.rgoxA1dM4L-7O4rDC6xE_B5hLtqBsFn76Duo-wjc2yQ
 
 {
   "rating": 5,
   "comment": "อร่อยมาก",
-  "dessertId": 1
+  "dessertId": 4
 }
 
 ### get deserts
 GET {{BASE_URL}}/reviews/my
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJwYW4xIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NzI1MjU4MDQsImV4cCI6MTc3MzM4OTgwNH0.rgoxA1dM4L-7O4rDC6xE_B5hLtqBsFn76Duo-wjc2yQ
 
 ### delete deserts
 DELETE  {{BASE_URL}}/reviews/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJwYW4xIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NzI1MjU4MDQsImV4cCI6MTc3MzM4OTgwNH0.rgoxA1dM4L-7O4rDC6xE_B5hLtqBsFn76Duo-wjc2yQ
