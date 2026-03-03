@@ -5,7 +5,7 @@ POST {{BASE_URL}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "pan@email.com",
+  "email": "admin1@email.com",
   "password": "123456"
 }
 
@@ -14,9 +14,9 @@ POST {{BASE_URL}}/auth/register
 Content-Type: application/json
 
 {
-  "username": "pan1",
-  "email": "pan4@email.com",
+  "username": "admin",
+  "email": "admin1@email.com",
   "password": "123456",
-  "role": "USER"
+  "role": "ADMIN"
 }
 
